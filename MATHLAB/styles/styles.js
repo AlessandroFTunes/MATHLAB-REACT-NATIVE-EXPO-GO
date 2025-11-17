@@ -8,13 +8,12 @@ export default StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
-    container2: {
-    flex: 1,
-    backgroundColor: '#ffffffff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
+ container2: {
+  flexGrow: 1,          // permite rolagem
+  alignItems: 'center', // centraliza horizontalmente
+  padding: 20,
+  backgroundColor: '#fff',
+},
   logo: {
     width: 120,
     height: 120,
@@ -75,7 +74,7 @@ export default StyleSheet.create({
 
 text2: {
     fontSize: 26,
-    color: '#ffffffff',
+    color: '#000000ff',
     marginBottom: 15,
     fontWeight: 'bold',
     marginTop: 10,
@@ -84,12 +83,12 @@ text2: {
   },
   subText2: {
     fontSize: 18,
-    color: '#355effff',
+    color: '#8c8d8dff',
   },
   subText: {
     fontSize: 14,
     color: '#ffffff6c',
-    marginBottom: 10,
+    marginBottom: 1,
     fontWeight: 'bold',
     marginTop: 5,
   },
@@ -102,8 +101,8 @@ text2: {
       width: 150,
     height: 150,
     alignSelf: 'center',
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: 40,
+    marginBottom: 2,
   },
   buttonExercicio: {
     background: '#ffffff33',

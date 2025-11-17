@@ -1,70 +1,101 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity,ScrollView } from 'react-native';
 import styles from '../styles/styles';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function ExerciciosScreen({ goBack }) {
+export default function ExerciciosScreen({
+  goBack,
+  goToExercicio1,
+  goToExercicio2,
+  goToExercicio3,
+  goToExercicio4,
+  goToExercicio5
+}) {
   return (
-    <View style={styles.container2}>
-<View style={styles.header}>
-    
-         <View style={styles.centralizar}>
-            <Image source={require('../assets/icon.png')} style={styles.imagemPequena}/>
+    <ScrollView contentContainerStyle={styles.container2}>
 
-            </View>
-
-
-    <Text style={styles.text2}>MATHLAB</Text>
-    <Text style={styles.subText2}>Bem-vindo ao seu laboratório matemático</Text>
-</View>
-<LinearGradient         colors={['#09a5ee', '#001aff']}
-        start={{ x: 0, y: 0.5 }}
-        end={{ x: 1, y: 0.5 }}
-        style={styles.buttonExercicio}>
-    <TouchableOpacity style={styles.buttonExercicio} onPress={goBack}>
-
-        <Text style={styles.text}>ANALISE DE INVESTIMENTOS</Text>
-        <Text style={styles.subText}>ANALISE DE INVESTIMENTOS</Text>
-    </TouchableOpacity>
-</LinearGradient>
-
-<LinearGradient         colors={['#001aff', '#09a5ee']}
-        start={{ x: 0, y: 0.5 }}
-        end={{ x: 1, y: 0.5 }}
-        style={styles.buttonExercicio}>
-    <TouchableOpacity style={styles.buttonExercicio} onPress={goBack}>
-
-        <Text style={styles.text}>ANALISE DE INVESTIMENTOS</Text>
-        <Text style={styles.subText}>ANALISE DE INVESTIMENTOS</Text>
-    </TouchableOpacity>
-</LinearGradient>
-
-<LinearGradient style={styles.buttonExercicio} colors={['#09a5ee', '#001aff']}
-
-        start={{ x: 0, y: 0.5 }}
-        end={{ x: 1, y: 0.5 }}>
-    <TouchableOpacity style={styles.buttonExercicio} onPress={goBack}>
-
-        <Text style={styles.text}>ANALISE DE INVESTIMENTOS</Text>
-        <Text style={styles.subText}>ANALISE DE INVESTIMENTOS</Text>
-    </TouchableOpacity>
-</LinearGradient>
-
-<LinearGradient         colors={['#001aff', '#09a5ee']}
-        start={{ x: 0, y: 0.5 }}
-        end={{ x: 1, y: 0.5 }}
-        style={styles.buttonExercicio}>
-    <TouchableOpacity style={styles.buttonExercicio} onPress={goBack}>
-
-        <Text style={styles.text}>ANALISE DE INVESTIMENTOS</Text>
-        <Text style={styles.subText}>ANALISE DE INVESTIMENTOS</Text>
-    </TouchableOpacity>
-</LinearGradient>
-
-
+      {/* HEADER */}
+      <View style={styles.header}>
+        <View style={styles.centralizar}>
+          <Image 
+            source={require('../assets/icon.png')} 
+            style={styles.imagemPequena}
+          />
+        </View>
+        <Text style={styles.title}>MATHLAB</Text>
+        <Text style={styles.subText2}>Bem-vindo ao seu laboratório matemático</Text>
+      </View>
       <TouchableOpacity style={styles.button} onPress={goBack}>
         <Text style={styles.buttonText}>Voltar</Text>
       </TouchableOpacity>
-    </View>
+      {/* EXERCÍCIO 1 */}
+      <LinearGradient
+        colors={['#09a5ee', '#001aff']}
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+        style={styles.buttonExercicio}
+      >
+        <TouchableOpacity style={styles.buttonExercicio} onPress={goToExercicio1}>
+          <Text style={styles.text}>ANÁLISE DE INVESTIMENTOS</Text>
+          <Text style={styles.subText}>Juros Compostos</Text>
+        </TouchableOpacity>
+      </LinearGradient>
+
+      {/* EXERCÍCIO 2 */}
+      <LinearGradient
+        colors={['#001aff', '#09a5ee']}
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+        style={styles.buttonExercicio}
+      >
+        <TouchableOpacity style={styles.buttonExercicio} onPress={goToExercicio2}>
+          <Text style={styles.text}>EXERCÍCIO 2</Text>
+          <Text style={styles.subText}>Descrição do Exercício 2</Text>
+        </TouchableOpacity>
+      </LinearGradient>
+
+      {/* EXERCÍCIO 3 */}
+      <LinearGradient
+        colors={['#09a5ee', '#001aff']}
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+        style={styles.buttonExercicio}
+      >
+        <TouchableOpacity style={styles.buttonExercicio} onPress={goToExercicio3}>
+          <Text style={styles.text}>EXERCÍCIO 3</Text>
+          <Text style={styles.subText}>Descrição do Exercício 3</Text>
+        </TouchableOpacity>
+      </LinearGradient>
+
+      {/* EXERCÍCIO 4 */}
+      <LinearGradient
+        colors={['#001aff', '#09a5ee']}
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+        style={styles.buttonExercicio}
+      >
+        <TouchableOpacity style={styles.buttonExercicio} onPress={goToExercicio4}>
+          <Text style={styles.text}>EXERCÍCIO 4</Text>
+          <Text style={styles.subText}>Descrição do Exercício 4</Text>
+        </TouchableOpacity>
+      </LinearGradient>
+
+      {/* EXERCÍCIO 5 */}
+      <LinearGradient
+        colors={['#09a5ee', '#001aff']}
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+        style={styles.buttonExercicio}
+      >
+        <TouchableOpacity style={styles.buttonExercicio} onPress={goToExercicio5}>
+          <Text style={styles.text}>EXERCÍCIO 5</Text>
+          <Text style={styles.subText}>Descrição do Exercício 5</Text>
+        </TouchableOpacity>
+      </LinearGradient>
+
+      {/* BOTÃO VOLTAR */}
+
+
+    </ScrollView>
   );
 }
