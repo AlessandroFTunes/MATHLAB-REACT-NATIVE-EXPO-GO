@@ -49,8 +49,8 @@ export default function ExerciciosScreen({
         style={styles.buttonExercicio}
       >
         <TouchableOpacity style={styles.buttonExercicio} onPress={goToExercicio2}>
-          <Text style={styles.text}>EXERCÍCIO 2</Text>
-          <Text style={styles.subText}>Descrição do Exercício 2</Text>
+          <Text style={styles.text}>Análise de Investimentos com Aportes Periódicos</Text>
+          <Text style={styles.subText}>juros compostos incluindo aportes mensais</Text>
         </TouchableOpacity>
       </LinearGradient>
 
@@ -62,8 +62,8 @@ export default function ExerciciosScreen({
         style={styles.buttonExercicio}
       >
         <TouchableOpacity style={styles.buttonExercicio} onPress={goToExercicio3}>
-          <Text style={styles.text}>EXERCÍCIO 3</Text>
-          <Text style={styles.subText}>Descrição do Exercício 3</Text>
+          <Text style={styles.text}>ECálculo do IRRF (Imposto de Renda Retido na Fonte)</Text>
+          <Text style={styles.subText}>IRRF a pagar considerando salário bruto e número de dependentes.</Text>
         </TouchableOpacity>
       </LinearGradient>
 
@@ -75,8 +75,8 @@ export default function ExerciciosScreen({
         style={styles.buttonExercicio}
       >
         <TouchableOpacity style={styles.buttonExercicio} onPress={goToExercicio4}>
-          <Text style={styles.text}>EXERCÍCIO 4</Text>
-          <Text style={styles.subText}>Descrição do Exercício 4</Text>
+          <Text style={styles.text}>Equação da Reta</Text>
+          <Text style={styles.subText}>determina a função do primeiro grau, além dos interceptos nos eixos X e Y.</Text>
         </TouchableOpacity>
       </LinearGradient>
 
@@ -88,8 +88,8 @@ export default function ExerciciosScreen({
         style={styles.buttonExercicio}
       >
         <TouchableOpacity style={styles.buttonExercicio} onPress={goToExercicio5}>
-          <Text style={styles.text}>EXERCÍCIO 5</Text>
-          <Text style={styles.subText}>Descrição do Exercício 5</Text>
+          <Text style={styles.text}>Método da Bisseção (Cálculo Numérico de Raiz)</Text>
+          <Text style={styles.subText}>raiz de uma função usando o método da bisseção</Text>
         </TouchableOpacity>
       </LinearGradient>
 
