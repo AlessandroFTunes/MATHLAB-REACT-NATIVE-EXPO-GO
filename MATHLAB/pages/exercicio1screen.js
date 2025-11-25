@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity,ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-
+import { LineChart } from "react-native-chart-kit";
+import { Dimensions } from "react-native";
 import globalStyles from "../styles/styles";
 import exStyles from "../styles/exerciciosStyle";
 
-export default function Exercicio1Screen({ goBack }) {
+export default function Exercicio1Screen({ goBack}) {
   const [capital, setCapital] = useState("");
   const [tempo, setTempo] = useState("");
   const [taxa, setTaxa] = useState("");
@@ -41,7 +42,7 @@ if (i1 > i2) {
   }
 
   return (
-    <View style={globalStyles.container2}>
+    <ScrollView contentContainerStyle={globalStyles.container2}>
       <Text style={globalStyles.text2}>Análise de Investimentos</Text>
       <Text style={globalStyles.subText2}>Juros Compostos</Text>
 
@@ -89,6 +90,13 @@ if (i1 > i2) {
         </LinearGradient>
       </TouchableOpacity>
 
+      {/* VOLTAR */}
+      <TouchableOpacity onPress={goBack}>
+        <Text style={{ marginTop: 25, textAlign: "center", color: "#00308f", fontWeight: "700", fontSize: 16 }}>
+          Voltar
+        </Text>
+      </TouchableOpacity>
+
       {/* Resultado */}
       {resultado && (
         <View style={{ marginTop: 20 }}>
@@ -104,10 +112,61 @@ if (i1 > i2) {
         </View>
       )}
 
-      {/* Botão Voltar */}
-      <TouchableOpacity onPress={goBack}>
-        <Text style={[exStyles.buttonText, { marginTop: 20 }]}>Voltar</Text>
-      </TouchableOpacity>
-    </View>
+     {resultado && (
+  <ScrollView style={{ marginTop: 30 }}>
+    <Text style={[globalStyles.text2, { marginBottom: 10 }]}>
+      Evolução do Investimento
+    </Text>
+
+    {(() => {
+      const C = parseFloat(capital.replace(",", "."));
+      const t = parseInt(tempo);
+      const taxaNum = parseFloat(taxa.replace(",", ".")) / 100;
+      const ipcaNum = parseFloat(ipca.replace(",", ".")) / 100;
+
+      // Segurança total contra NaN
+      if (isNaN(C) || isNaN(t) || isNaN(taxaNum) || isNaN(ipcaNum)) {
+        return <Text style={{ color: "red" }}>Valores inválidos</Text>;
+      }
+
+      const labels = Array.from({ length: t + 1 }, (_, i) => i.toString());
+      const serieAplicacao = Array.from({ length: t + 1 }, (_, x) =>
+        C * Math.pow(1 + taxaNum, x)
+      );
+      const serieIpca = Array.from({ length: t + 1 }, (_, x) =>
+        C * Math.pow(1 + ipcaNum, x)
+      );
+
+      return (
+        <LineChart
+          data={{
+            labels: labels,
+            datasets: [
+              { data: serieAplicacao, strokeWidth: 2 },
+              { data: serieIpca, strokeWidth: 2 }
+            ]
+          }}
+          width={Dimensions.get("window").width - 20}
+          height={250}
+          yAxisLabel="R$"
+          chartConfig={{
+            backgroundGradientFrom: "#1e1e1e",
+            backgroundGradientTo: "#111",
+            decimalPlaces: 2,
+            color: (opacity = 1) => `rgba(255,255,255,${opacity})`,
+            labelColor: () => "#fff",
+          }}
+          style={{
+            borderRadius: 16,
+            paddingRight: 20,
+          }}
+        />
+      );
+    })()}
+  </ScrollView>
+)}
+
+
+    </ScrollView>
   );
 }

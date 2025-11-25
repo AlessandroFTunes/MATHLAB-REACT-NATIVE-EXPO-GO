@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Dimensions } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { LineChart } from "react-native-chart-kit";
 
 import globalStyles from "../styles/styles";
 import exStyles from "../styles/exerciciosStyle";
@@ -26,13 +27,8 @@ export default function Exercicio1Screen({ goBack }) {
       return;
     }
 
-    // Fórmula M = C(1+i)^t + A * ((1+i)^t - 1) / i
-    const montanteAplicacao =
-      C * Math.pow(1 + i1, t) + A * ((Math.pow(1 + i1, t) - 1) / i1);
-
-    const montanteIpca =
-      C * Math.pow(1 + i2, t) + A * ((Math.pow(1 + i2, t) - 1) / i2);
-
+    const montanteAplicacao = C * Math.pow(1 + i1, t) + A * ((Math.pow(1 + i1, t) - 1) / i1);
+    const montanteIpca = C * Math.pow(1 + i2, t) + A * ((Math.pow(1 + i2, t) - 1) / i2);
     const diferenca = montanteAplicacao - montanteIpca;
 
     setResultado({
@@ -42,70 +38,55 @@ export default function Exercicio1Screen({ goBack }) {
     });
   }
 
+  // Gerar dados para o gráfico
+  const gerarGrafico = () => {
+    const C = parseFloat(capital);
+    const A = parseFloat(aporte);
+    const t = parseInt(tempo);
+    const i1 = parseFloat(taxa) / 100;
+    const i2 = parseFloat(ipca) / 100;
+
+    if (isNaN(C) || isNaN(A) || isNaN(t) || isNaN(i1) || isNaN(i2)) return null;
+
+    const labels = Array.from({ length: t + 1 }, (_, i) => i.toString());
+    const serieAplicacao = Array.from({ length: t + 1 }, (_, x) =>
+      C * Math.pow(1 + i1, x) + A * ((Math.pow(1 + i1, x) - 1) / i1)
+    );
+    const serieIpca = Array.from({ length: t + 1 }, (_, x) =>
+      C * Math.pow(1 + i2, x) + A * ((Math.pow(1 + i2, x) - 1) / i2)
+    );
+
+    return { labels, serieAplicacao, serieIpca };
+  };
+
+  const dadosGrafico = gerarGrafico();
+
   return (
-    <View style={globalStyles.container2}>
+    <ScrollView contentContainerStyle={globalStyles.container2}>
       <Text style={exStyles.title2}>Análise de Investimentos</Text>
       <Text style={exStyles.subtitle2}>Aportes Periódicos</Text>
 
-      {/* INPUT — CAPITAL */}
-      <View style={exStyles.inputContainer}>
-        <Text style={exStyles.labelInput}>Capital inicial (R$)</Text>
-        <TextInput
-          style={exStyles.input}
-          keyboardType="numeric"
-          value={capital}
-          onChangeText={setCapital}
-          placeholder="Ex.: 1000"
-        />
-      </View>
+      {/* INPUTS */}
+      {[
+        { label: "Capital inicial (R$)", value: capital, setter: setCapital, placeholder: "Ex.: 1000" },
+        { label: "Aporte periódico (R$)", value: aporte, setter: setAporte, placeholder: "Ex.: 150" },
+        { label: "Tempo (anos)", value: tempo, setter: setTempo, placeholder: "Ex.: 5" },
+        { label: "Taxa de aplicação (%)", value: taxa, setter: setTaxa, placeholder: "Ex.: 1.2" },
+        { label: "Taxa do IPCA (%)", value: ipca, setter: setIpca, placeholder: "Ex.: 0.4" },
+      ].map((item, idx) => (
+        <View key={idx} style={exStyles.inputContainer}>
+          <Text style={exStyles.labelInput}>{item.label}</Text>
+          <TextInput
+            style={exStyles.input}
+            keyboardType="numeric"
+            value={item.value}
+            onChangeText={item.setter}
+            placeholder={item.placeholder}
+          />
+        </View>
+      ))}
 
-      {/* INPUT — APORTE */}
-      <View style={exStyles.inputContainer}>
-        <Text style={exStyles.labelInput}>Aporte periódico (R$)</Text>
-        <TextInput
-          style={exStyles.input}
-          keyboardType="numeric"
-          value={aporte}
-          onChangeText={setAporte}
-          placeholder="Ex.: 150"
-        />
-      </View>
 
-      {/* INPUT — TEMPO */}
-      <View style={exStyles.inputContainer}>
-        <Text style={exStyles.labelInput}>Tempo (anos)</Text>
-        <TextInput
-          style={exStyles.input}
-          keyboardType="numeric"
-          value={tempo}
-          onChangeText={setTempo}
-          placeholder="Ex.: 5"
-        />
-      </View>
-
-      {/* INPUT — TAXA */}
-      <View style={exStyles.inputContainer}>
-        <Text style={exStyles.labelInput}>Taxa de aplicação (%)</Text>
-        <TextInput
-          style={exStyles.input}
-          keyboardType="numeric"
-          value={taxa}
-          onChangeText={setTaxa}
-          placeholder="Ex.: 1.2"
-        />
-      </View>
-
-      {/* INPUT — IPCA */}
-      <View style={exStyles.inputContainer}>
-        <Text style={exStyles.labelInput}>Taxa do IPCA (%)</Text>
-        <TextInput
-          style={exStyles.input}
-          keyboardType="numeric"
-          value={ipca}
-          onChangeText={setIpca}
-          placeholder="Ex.: 0.4"
-        />
-      </View>
 
       {/* BOTÃO CALCULAR */}
       <TouchableOpacity onPress={calcular}>
@@ -113,10 +94,17 @@ export default function Exercicio1Screen({ goBack }) {
           colors={["#004cff", "#002a9c"]}
           start={{ x: 0, y: 0.5 }}
           end={{ x: 1, y: 0.5 }}
-          style={[exStyles.buttonPrimary]}
+          style={exStyles.buttonPrimary}
         >
           <Text style={exStyles.buttonPrimaryText}>Calcular</Text>
         </LinearGradient>
+      </TouchableOpacity>
+
+      {/* VOLTAR */}
+      <TouchableOpacity onPress={goBack}>
+        <Text style={{ marginTop: 25, textAlign: "center", color: "#00308f", fontWeight: "700", fontSize: 16 }}>
+          Voltar
+        </Text>
       </TouchableOpacity>
 
       {/* RESULTADO */}
@@ -125,33 +113,45 @@ export default function Exercicio1Screen({ goBack }) {
           <Text style={exStyles.resultText}>
             Montante (Taxa Aplicação): R$ {resultado.montanteAplicacao}
           </Text>
-
           <Text style={exStyles.resultText}>
             Montante (IPCA): R$ {resultado.montanteIpca}
           </Text>
-
           <Text style={exStyles.resultText}>
             Diferença: R$ {resultado.diferenca}
           </Text>
         </View>
       )}
 
-      {/* VOLTAR */}
-      <TouchableOpacity onPress={goBack}>
-        <Text
-          style={{
-            marginTop: 25,
-            textAlign: "center",
-            color: "#00308f",
-            fontWeight: "700",
-            fontSize: 16,
-          }}
-        >
-          Voltar
-        </Text>
-      </TouchableOpacity>
-    </View>
+      {/* GRÁFICO */}
+      {dadosGrafico && (
+        <>
+          <Text style={[exStyles.title2, { marginTop: 30, marginBottom: 10 }]}>
+            Evolução do Investimento
+          </Text>
+          <LineChart
+            data={{
+              labels: dadosGrafico.labels,
+              datasets: [
+                { data: dadosGrafico.serieAplicacao, color: () => "#004cff", strokeWidth: 2 },
+                { data: dadosGrafico.serieIpca, color: () => "#ff0000", strokeWidth: 2 },
+              ],
+            }}
+            width={Dimensions.get("window").width - 20}
+            height={250}
+            yAxisLabel="R$"
+            chartConfig={{
+              backgroundGradientFrom: "#1e1e1e",
+              backgroundGradientTo: "#111",
+              decimalPlaces: 2,
+              color: (opacity = 1) => `rgba(255,255,255,${opacity})`,
+              labelColor: () => "#fff",
+            }}
+            style={{ borderRadius: 16, paddingRight: 20 }}
+          />
+        </>
+      )}
+
+
+    </ScrollView>
   );
 }
-
-
